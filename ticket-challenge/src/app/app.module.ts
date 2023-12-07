@@ -5,6 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PlanComponent } from './plan/plan.component';
 import { SalonsListComponent } from './salons-list/salons-list.component';
+import {HttpClientModule} from "@angular/common/http";
+import {AngularSvgIconModule} from "angular-svg-icon";
 
 @NgModule({
   declarations: [
@@ -12,10 +14,12 @@ import { SalonsListComponent } from './salons-list/salons-list.component';
     PlanComponent,
     SalonsListComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        AngularSvgIconModule.forRoot()
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

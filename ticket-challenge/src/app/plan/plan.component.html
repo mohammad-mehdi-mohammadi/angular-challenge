@@ -1,1 +1,24 @@
-<!-- You should implement the UI just like the plan-desing file -->
+<section class="plan">
+
+    <div class="showCurtain">
+
+        <div class="seatsWrapper" *ngIf="mapDetail$ | async; let item; else NotFound">
+            <ng-container *ngIf="item; else NotFound">
+                <div *ngFor="let row of item.seats; index as i">
+                    <svg-icon src="./../../assets/icon/seat-2.svg" *ngFor="let column of row"
+                              [ngClass]="column === 1 ? 'reserved' : 'available'"></svg-icon>
+                </div>
+
+            </ng-container>
+
+        </div>
+
+    </div>
+</section>
+
+
+<ng-template #NotFound>
+    <div class="noData">
+        موردی یافت نشد
+    </div>
+</ng-template>

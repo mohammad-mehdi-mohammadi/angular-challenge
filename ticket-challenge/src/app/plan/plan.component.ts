@@ -1,22 +1,31 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from "rxjs";
+import {Observable, Subject, takeUntil} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
+import {MapDetail} from "../../interface/map-detail";
+import {MapService} from "../../services/map/map.service";
 
 @Component({
-  selector: 'app-plan',
-  templateUrl: './plan.component.html',
-  styleUrls: ['./plan.component.scss']
+    selector: 'app-plan',
+    templateUrl: './plan.component.html',
+    styleUrls: ['./plan.component.scss']
 })
 export class PlanComponent implements OnInit, OnDestroy {
-  private routeSubscription: Subscription = new Subscription;
-  constructor(private route: ActivatedRoute) { }
+    destroy$: Subject<boolean> = new Subject<boolean>();
+    mapDetail$!: Observable<MapDetail | undefined>;
+    constructor(private route: ActivatedRoute, private mapService: MapService) {
+        this.route.params.pipe(takeUntil(this.destroy$))
+            .subscribe(params => {
+                console.log(params['id'])
+                this.mapDetail$ = this.mapService.getMapDetail(params['id']);
+            });
+    }
 
-  ngOnInit(): void {
-    this.routeSubscription = this.route.params.subscribe(params => {
-      console.log(params['id'])
-    });
-  }
-  ngOnDestroy() {
-    this.routeSubscription.unsubscribe();
-  }
+    ngOnInit(): void {
+
+    }
+
+    ngOnDestroy() {
+        this.destroy$.next(true);
+        this.destroy$.unsubscribe();
+    }
 }

@@ -1,17 +1,5 @@
 <div>
-    <section>
-        <!-- 
-            You should get the list of values from https://ticket-challange.herokuapp.com/map
-            Each span should link to the plan page of that salon.
-        -->
-        <span>سالن ۱</span>
-        <span>سالن ۲</span>
-        <span>سالن ۳</span>
-        <span>سالن ۴</span>
-        <span>سالن ۵</span>
-        <span>سالن ۶</span>
-        <span>سالن ۷</span>
-        <span>سالن ۸</span>
-        <span>سالن ۹</span>
+    <section *ngIf="mapList$ | async; let mapList">
+        <a [attr.href] = "'plan/' + item.id" *ngFor="let item of mapList">{{item.name}}</a>
     </section>
 </div>
