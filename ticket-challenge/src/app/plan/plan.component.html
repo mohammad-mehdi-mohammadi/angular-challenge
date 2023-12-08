@@ -1,18 +1,18 @@
 <section class="plan">
-
-    <div class="showCurtain">
-
-        <div class="seatsWrapper" *ngIf="mapDetail$ | async; let item; else NotFound">
-            <ng-container *ngIf="item; else NotFound">
-                <div *ngFor="let row of item.seats; index as i">
-                    <svg-icon src="./../../assets/icon/seat-2.svg" *ngFor="let column of row"
-                              [ngClass]="column === 1 ? 'reserved' : 'available'"></svg-icon>
+    <div class="showCurtain"></div>
+    <div class="seatsContainer">
+        <div class="seats" *ngIf="mapDetail; else Loading">
+            <ng-container *ngIf="mapDetail; else NotFound">
+                <div *ngFor="let row of mapDetail.seats; index as rowIndex">
+                    <button (click)="onSeatClicked(rowIndex, columnIndex)" *ngFor="let column of row; index as columnIndex">
+                        <svg-icon src="./../../assets/icon/seat-2.svg" class="svg-icon"
+                                  [ngClass]="column ? 'reserved' : 'available'"></svg-icon>
+                    </button>
                 </div>
 
             </ng-container>
 
         </div>
-
     </div>
 </section>
 
@@ -20,5 +20,10 @@
 <ng-template #NotFound>
     <div class="noData">
         موردی یافت نشد
+    </div>
+</ng-template>
+<ng-template #Loading>
+    <div class="loading">
+        در حال بارگزاری
     </div>
 </ng-template>

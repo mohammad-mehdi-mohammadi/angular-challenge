@@ -1,0 +1,5 @@
+{
+  "/map/:id/ticket": "/map/:id/ticket",
+  "/map": "/map",
+  "/map/:id": "/map/:id"
+}

@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {catchError, map, Observable, of, switchMap} from "rxjs";
+import {Observable} from "rxjs";
 import {MapList} from "../../interface/map-list";
 import {MapDetail} from "../../interface/map-detail";
+import {Ticket} from "../../interface/ticket";
 
 @Injectable({
     providedIn: 'root'
@@ -13,14 +14,14 @@ export class MapService {
     }
 
     getAllMap(): Observable<MapList[]> {
-        return this.http.get<MapList[]>("./../../assets/mocks/map-list.json");
+        return this.http.get<MapList[]>("http://localhost:3000/map");
     }
 
-    getMapDetail(id: string): Observable<MapDetail | undefined> {
-        return this.http.get<MapDetail[]>("./../../assets/mocks/map-detail.json").pipe(
-            map((data: MapDetail[]) => {
-                return data.find((item) => item.id === id)
-            })
-        );
+    getMapDetail(id: string): Observable<MapDetail> {
+        return this.http.get<MapDetail>(`http://localhost:3000/map/${id}`)
+    }
+
+    ticket(id: string, x: number, y: number): Observable<Ticket> {
+        return this.http.post<Ticket>(`http://localhost:3000/map/${id}/ticket`, {x, y})
     }
 }
