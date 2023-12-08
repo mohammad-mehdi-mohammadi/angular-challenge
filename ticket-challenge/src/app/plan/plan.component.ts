@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
-import {Observable, Subject, takeUntil} from "rxjs";
+import {Subject, takeUntil} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
 import {MapDetail} from "../../interface/map-detail";
 import {MapService} from "../../services/map/map.service";
@@ -8,7 +8,7 @@ import {MapService} from "../../services/map/map.service";
     selector: 'app-plan',
     templateUrl: './plan.component.html',
     styleUrls: ['./plan.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush // using this technique to call Angular to re-render template when we need manually for better performance
 })
 export class PlanComponent implements OnInit, OnDestroy {
     destroy$: Subject<boolean> = new Subject<boolean>();
@@ -21,6 +21,7 @@ export class PlanComponent implements OnInit, OnDestroy {
                 this.mapId = params['id']
                 this.mapService.getMapDetail(params['id']).pipe(takeUntil(this.destroy$)).subscribe((res) => {
                     this.mapDetail = res
+                    // we ask Angular to re-render manually
                     this.changeDetectorRef.detectChanges()
                 });
             });
@@ -43,12 +44,14 @@ export class PlanComponent implements OnInit, OnDestroy {
 
                     })
                 };
+                // we ask Angular to re-render manually
                 this.changeDetectorRef.detectChanges()
 
             })
         }
 
     }
+
     ngOnDestroy() {
         this.destroy$.next(true);
         this.destroy$.unsubscribe();

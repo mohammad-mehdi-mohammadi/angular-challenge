@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MapService} from "../../services/map/map.service";
-import {Observable, Subject} from "rxjs";
+import {Observable} from "rxjs";
 import {MapList} from "../../interface/map-list";
 
 @Component({
